@@ -1,0 +1,65 @@
+/* line-drawn school plan for the Inclusive Navigation outcome */
+.wf { grid-column: 3 / 7; margin-top: 48px; }
+
+.wf-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 18px; }
+.wf-k { font-size: 14px; color: var(--ink-muted); margin-right: 6px; }
+.wf-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 12px 5px 8px; border: 1px solid var(--line); border-radius: 30px; background: var(--paper);
+  font-size: 14px; color: var(--ink); transition: border-color .2s, background .2s, color .2s;
+}
+.wf-badge svg { width: 18px; height: 18px; color: var(--c); }
+.wf-badge:hover { border-color: var(--c); }
+.wf-badge.on { background: var(--c); border-color: var(--c); color: #fff; }
+.wf-badge.on svg { color: #fff; }
+.wf-over {
+  margin-left: auto; padding: 5px 14px; border: 1px solid var(--accent); border-radius: 30px;
+  font-size: 14px; color: var(--accent); transition: background .2s, color .2s;
+}
+.wf-over:hover, .wf-over.on { background: var(--accent); color: #fff; }
+
+.wf-map { display: block; width: 100%; height: auto; background: var(--paper); border: 1px solid var(--line); border-radius: 4px; }
+.wf-t { font-family: 'Jost', sans-serif; font-size: 14px; fill: var(--ink); }
+.wf-t-s { font-size: 12px; fill: var(--ink-muted); }
+.wf-wall { stroke: var(--ink); stroke-width: 1; }
+.wf-door { stroke: var(--paper); stroke-width: 3; }
+.wf-arrow { fill: none; stroke: var(--ink); stroke-width: 1.2; }
+
+.wf-room { cursor: pointer; transition: opacity .4s; }
+.wf-room-box { fill: transparent; stroke: var(--ink); stroke-width: 1; transition: fill .4s; }
+.wf-room:hover .wf-room-box { fill: color-mix(in srgb, var(--c) 8%, transparent); }
+.wf-room.lit .wf-room-box { fill: color-mix(in srgb, var(--c) 14%, transparent); }
+.wf-room.dim { opacity: .3; }
+.wf-board { fill: var(--paper); stroke: var(--ink); stroke-width: .8; stroke-dasharray: 2 2; }
+.wf-room.lit .wf-board { stroke-dasharray: none; }
+
+.wf-zone { transition: opacity .4s; }
+.wf-zone-box { stroke: var(--line); stroke-width: 1; }
+.wf-hatch-line { stroke: var(--line); stroke-width: 2; }
+.wf-zone .wf-t-s { opacity: 0; transition: opacity .3s; }
+.wf-zone:hover .wf-t-s { opacity: 1; }
+.wf-zone:hover .wf-zone-box, .wf-zone:hover .wf-hatch-line { stroke: var(--accent); }
+.wf-map.is-rail .wf-zone { opacity: .3; }
+
+.wf-route { fill: none; stroke-width: 8; stroke-linecap: round; stroke-linejoin: round; opacity: .6; stroke-dasharray: 1; }
+.wf-token-bg { fill: var(--paper); stroke: var(--ink); stroke-width: 1; }
+
+.wf-rail path { fill: none; stroke: var(--accent); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; }
+.wf-rail circle { fill: var(--accent); transition: opacity .2s; }
+
+.wf-foot { display: grid; grid-template-columns: 1.3fr 1fr; gap: 24px; margin-top: 16px; align-items: start; }
+.wf-cap { margin: 0; font-size: 16px; font-style: italic; color: var(--ink); min-height: 3em; }
+.wf-parts { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; font-size: 14px; color: var(--ink-muted); }
+.wf-parts li { display: flex; align-items: center; gap: 10px; transition: color .3s; }
+.wf-parts li span {
+  width: 20px; height: 20px; border-radius: 50%; border: 1px solid var(--line);
+  display: inline-flex; align-items: center; justify-content: center; font-size: 11px; transition: background .3s, color .3s, border-color .3s;
+}
+.wf-parts li.on { color: var(--ink); }
+.wf-parts li.on span { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+@media (max-width: 900px) {
+  .wf { grid-column: 2 / 8; }
+  .wf-over { margin-left: 0; }
+  .wf-foot { grid-template-columns: 1fr; }
+}

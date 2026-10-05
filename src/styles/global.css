@@ -1,0 +1,197 @@
+/* ==========================================================
+   Global styles — shared by every page
+   (tokens, base, 7-column grid, header, nav, footer)
+   ========================================================== */
+
+:root {
+  --bg: #F1EFE1;
+  --ink: #5A5750;
+  --ink-muted: rgba(90, 87, 80, 0.45);
+  --line: #DCD8C4;
+  --gutter: 20px;
+  --red: #B64646;
+  --green: #58A662;
+  --blue: #63799C;
+  --gray-dot: rgba(90, 87, 80, 0.45);
+  --accent: #CB5858;
+  --preview-bg: #D9D6C9;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Jost', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+a { color: inherit; text-decoration: none; }
+
+.script { font-family: 'Yellowtail', cursive; }
+
+/* ---------- logo mark ---------- */
+.mark-svg { display: block; fill: var(--ink); }
+.mark-dot { fill: var(--accent); }
+
+/* ---------- page shell + grid ---------- */
+.page {
+  position: relative;
+  max-width: 1512px;
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+.grid-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  position: relative;
+  z-index: 1;
+}
+
+.grid-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+.grid-lines .line-rect { fill: var(--line); }
+.grid-lines .line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--line);
+}
+
+/* ---------- header ---------- */
+header.grid-row {
+  padding-top: 32px;
+  align-items: start;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--bg);
+  transition: transform 0.3s ease;
+}
+/* landing + case studies pin the header to the viewport */
+header.grid-row.is-fixed {
+  position: fixed;
+  /* centred exactly like .page (100vw would include the scrollbar and
+     shift the header — and its grid lines — sideways by half its width) */
+  left: 0; right: 0;
+  margin: 0 auto;
+  max-width: 1512px;
+  padding: 32px 20px 0 20px;
+}
+header.grid-row.nav-hidden { transform: translateY(-100%); }
+/* logo + links sit above the lines that run through the header */
+header.grid-row > *:not(.grid-lines) { position: relative; z-index: 1; }
+
+.get-in-touch { grid-column: 1 / 3; font-size: 16px; }
+
+.top-logo { grid-column: 1 / 3; }
+.top-logo .mark-svg { width: 130px; height: auto; }
+
+nav.main-nav {
+  grid-column: 7 / 8;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  font-size: 16px;
+}
+nav.main-nav a { color: var(--ink); cursor: pointer; }
+nav.main-nav a.current { color: var(--accent); } /* the page you're on turns red */
+
+/* ---------- underline hover effects ---------- */
+nav.main-nav a,
+.footer-social a {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+nav.main-nav a::after,
+.footer-social a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background: var(--accent); /* red underline stroke on hover */
+  transform: scaleX(0);
+  transition: transform 0.35s ease;
+}
+/* grows from center, shrinks back to center */
+.underline-center::after { transform-origin: center; }
+.underline-center:hover::after { transform: scaleX(1); transform-origin: center; }
+/* enters from the right, exits toward the left */
+.underline-right-left::after { transform-origin: left; }
+.underline-right-left:hover::after { transform: scaleX(1); transform-origin: right; }
+/* enters from the left, exits toward the right */
+.underline-left-right::after { transform-origin: right; }
+.underline-left-right:hover::after { transform: scaleX(1); transform-origin: left; }
+
+/* ---------- colour dots ---------- */
+.dot { width: 8px; height: 8px; border-radius: 50%; }
+.dot.blue { background: var(--blue); }
+.dot.red { background: var(--red); }
+.dot.green { background: var(--green); }
+.dot.gray { background: var(--gray-dot); }
+
+/* ---------- footer ---------- */
+footer.site-footer {
+  margin-top: 220px;
+  padding-bottom: 24px;
+  align-items: end;
+  position: relative;
+}
+.footer-social {
+  grid-column: 7 / 8;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  font-size: 16px;
+  color: var(--ink-muted);
+  margin-bottom: 90px;
+}
+.footer-mark {
+  grid-column: 1 / 5;
+  align-self: end;
+  transform: translateY(70px);
+  opacity: 0;
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.9s ease-out;
+}
+.footer-mark.in-view { transform: translateY(0); opacity: 1; }
+.footer-logo-svg { width: 560px; max-width: 100%; }
+.made-with-hate {
+  grid-column: 7 / 8;
+  justify-self: end;
+  font-size: 15px;
+  color: var(--ink-muted);
+}
+
+/* ---------- scramble text ---------- */
+.scramble-text { display: inline; }
+.scramble-word { display: inline-block; }
+
+/* ---------- responsive (shared parts) ---------- */
+@media (max-width: 900px) {
+  .grid-lines .line-rect:nth-of-type(3),
+  .grid-lines .line-rect:nth-of-type(5),
+  .grid-lines .line-rect:nth-of-type(7) { opacity: 0; }
+
+  .footer-logo-svg { width: 300px; }
+  .footer-mark { grid-column: 1 / 8; }
+  footer.site-footer { row-gap: 24px; }
+  .footer-social { grid-column: 1 / 8; align-items: flex-start; margin-bottom: 0; }
+  .made-with-hate { grid-column: 1 / 8; justify-self: start; }
+}
+

@@ -1,0 +1,67 @@
+/* Kakori Kaand — builds on the case-study styles in InclusiveNavigation.css */
+
+/* videos fill their box like images do */
+.kakori video.media-img { object-fit: cover; background: #000; }
+
+/* the rest of the process continues under the asset images, no label */
+.kakori .process-more { margin-top: 64px; }
+
+/* train interior full width, chest + radio below */
+.kakori .asset-photos {
+  grid-column: 2 / 7;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.kakori .asset { margin: 0; }
+.kakori .asset.wide { grid-column: 1 / -1; }
+.kakori .asset .cs-compare-layer.media-img { object-fit: cover; }
+.kakori .asset figcaption { margin-top: 8px; font-size: 14px; color: var(--ink-muted); }
+
+/* ---------- the mission: three stops along the train line ---------- */
+.kakori .kk-mission { grid-column: 3 / 7; margin-top: 48px; }
+.kakori .kk-track { position: relative; height: 96px; }
+.kakori .kk-rails {
+  position: absolute; left: 0; right: 0; top: 34px; height: 8px;
+  border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink);
+  background: repeating-linear-gradient(90deg, transparent 0 14px, var(--line) 14px 16px);
+}
+.kakori .kk-train {
+  position: absolute; top: 6px; width: 58px; transform: translateX(-50%);
+  transition: left .8s cubic-bezier(.5,0,.2,1);
+}
+.kakori .kk-train svg { display: block; width: 100%; }
+.kakori .kk-train rect, .kakori .kk-train circle { fill: var(--paper); stroke: var(--ink); stroke-width: 1; }
+.kakori .kk-train rect:first-child { fill: var(--accent); stroke: var(--accent); }
+.kakori .kk-stop {
+  position: absolute; top: 30px; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 6px; width: 150px; text-align: center;
+}
+.kakori .kk-dot { width: 16px; height: 16px; border-radius: 50%; background: var(--bg); border: 1px solid var(--ink); transition: background .3s, border-color .3s; }
+.kakori .kk-stop.past .kk-dot { background: var(--ink); }
+.kakori .kk-stop.on .kk-dot { background: var(--accent); border-color: var(--accent); }
+.kakori .kk-stop-n { display: none; }
+.kakori .kk-stop-t { font-size: 14px; color: var(--ink-muted); transition: color .2s; }
+.kakori .kk-stop.on .kk-stop-t, .kakori .kk-stop:hover .kk-stop-t { color: var(--ink); }
+.kakori .kk-train + .kk-stop, .kakori .kk-stop { z-index: 1; }
+.kakori .kk-train { z-index: 2; pointer-events: none; }
+
+.kakori .kk-scene { display: grid; grid-template-columns: 1fr 1.4fr; gap: 24px; margin-top: 32px; animation: kk-in .45s ease both; }
+.kakori .kk-scene-text { display: flex; flex-direction: column; gap: 10px; }
+.kakori .kk-scene-nav { margin-top: auto; display: flex; gap: 18px; font-size: 14px; color: var(--ink-muted); }
+.kakori .kk-scene-nav button:hover:not(:disabled) { color: var(--accent); }
+.kakori .kk-scene-nav button:disabled { opacity: .35; cursor: default; }
+.kakori .kk-clip { aspect-ratio: 16 / 9; }
+.kakori .kk-scene.no-clip { grid-template-columns: 1fr; min-height: 150px; }
+.kakori .kk-scene.no-clip .kk-scene-nav { margin-top: 16px; }
+.kakori .kk-clip.media-empty { padding: 10px; }
+.kakori .outcome-closing { margin-top: 48px; }
+@keyframes kk-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+@media (max-width: 900px) {
+  .kakori .kk-mission { grid-column: 2 / 8; }
+  .kakori .kk-stop { width: 100px; }
+  .kakori .kk-scene { grid-template-columns: 1fr; }
+  .kakori .asset-photos { grid-column: 2 / 8; grid-template-columns: 1fr; gap: 12px; }
+  .kakori .process-more { margin-top: 32px; }
+}

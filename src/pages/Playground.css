@@ -1,0 +1,104 @@
+/* Playground page — every rule is scoped under .playground */
+
+.playground .fold {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* The 3D canvas fills the whole first fold, behind the nav and the copy. */
+.playground .ic3d-fullbleed {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  cursor: grab;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.playground .ic3d-fullbleed.ic3d-dragging { cursor: grabbing; }
+.playground .ic3d-fullbleed canvas { display: block; width: 100%; height: 100%; }
+
+/* Header and copy sit above the canvas but let drags pass through to it —
+   only the links themselves stay clickable. */
+.playground header.grid-row,
+.playground .playground-copy { pointer-events: none; }
+.playground header.grid-row a,
+.playground .playground-copy a { pointer-events: auto; }
+.playground .playground-copy { position: relative; z-index: 1; }
+
+/* bottom-left copy block */
+.playground .playground-copy {
+  margin-top: auto;
+  padding-bottom: 64px;
+  align-items: end;
+}
+.playground .pg-line {
+  grid-column: 1 / 3;
+  margin: 0 0 20px 0;
+  font-size: 16px;
+  line-height: 1.5;
+}
+.playground .pg-line:last-child { margin-bottom: 0; }
+.playground .pg-line.trailing { text-align: right; }
+
+/* ---------- lightbox ---------- */
+.pg-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(90, 87, 80, 0.92);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+.pg-lightbox.visible { opacity: 1; pointer-events: auto; }
+.pg-lightbox img {
+  max-width: min(86vw, 900px);
+  max-height: 76vh;
+  object-fit: contain;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  transform: scale(0.98);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.pg-lightbox.visible img { opacity: 1; transform: scale(1); }
+
+.pg-lightbox button {
+  background: none;
+  border: 0;
+  font: inherit;
+  color: var(--bg);
+  cursor: pointer;
+}
+.pg-lightbox-close {
+  position: absolute;
+  top: 28px;
+  right: max(20px, calc((100vw - 1512px) / 2 + 20px));
+  font-size: 16px;
+}
+.pg-lightbox-count { margin-top: 20px; font-size: 14px; color: var(--bg); opacity: 0.7; }
+.pg-lightbox-hint { margin-top: 4px; font-size: 13px; font-style: italic; color: var(--bg); opacity: 0.5; }
+.pg-lightbox .pg-lightbox-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 28px;
+  opacity: 0.7;
+  padding: 12px;
+  transition: opacity 0.2s ease;
+}
+.pg-lightbox-arrow:hover { opacity: 1; }
+.pg-lightbox-prev { left: max(8px, calc((100vw - 1512px) / 2)); }
+.pg-lightbox-next { right: max(8px, calc((100vw - 1512px) / 2)); }
+
+@media (max-width: 900px) {
+  .playground .pg-line { grid-column: 2 / 8; }
+  .pg-lightbox .pg-lightbox-arrow { font-size: 22px; padding: 8px; }
+}

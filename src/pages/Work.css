@@ -1,0 +1,252 @@
+/* Work page (list + grid views) — every rule is scoped under .work
+   Layout: project names fixed on the left, a column of images scrolling
+   through the centre, category/year fixed on the right. Whichever image
+   crosses the middle of the screen becomes the active project. */
+
+.work.page { padding-bottom: 24px; }
+.work .work-body { margin-top: 0; } /* top spacing is measured in Work.jsx */
+
+/* Fixed panels use the same max-width/gutter math as .page so they line up
+   with the header and the grid lines. */
+.work .work-list-viewport {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  left: calc(max(0px, (100vw - 1512px) / 2) + 20px);
+  width: calc((min(100vw, 1512px) - 40px) * 2 / 7);
+  height: 230px;
+  overflow: hidden;
+  z-index: 6;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 28px, #000 calc(100% - 28px), transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 28px, #000 calc(100% - 28px), transparent 100%);
+}
+/* The list slides inside the fixed box so the active name is always centred. */
+.work .work-fixed-list {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+  will-change: transform;
+}
+.work .work-fixed-list.no-anim { transition: none; }
+.work .work-row {
+  display: block;
+  width: 100%;
+  min-width: 0; /* lets long titles wrap instead of crossing the grid line */
+  padding: 10px 0;
+  cursor: pointer;
+}
+.work .work-row .name {
+  display: block;
+  overflow-wrap: break-word;
+  font-size: 16px;
+  color: var(--ink-muted);
+  transform-origin: left center;
+  transition: color 0.3s ease, transform 0.35s cubic-bezier(.3,1.4,.5,1);
+}
+.work .work-row:hover .name { color: var(--ink); }
+.work .work-row.active .name { color: var(--accent); transform: scale(1.25); } /* highlighted project = red and a bit bigger */
+
+/* centre image column */
+.work .work-images-col {
+  grid-column: 4 / 5;
+  position: relative;
+  padding: 0; /* the looped copies above/below fill the space */
+}
+.work .work-image-item { display: block; margin-bottom: 56px; }
+.work a.work-image-item { cursor: pointer; } /* images with a case study are links */
+.work .work-image-item:last-child { margin-bottom: 0; }
+.work .work-image-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2480 / 3508; /* A4 poster ratio */
+  background-color: var(--preview-bg);
+  background-size: cover;
+  background-position: center;
+  opacity: 0.4;
+  filter: grayscale(0.6);
+  transform: scale(0.94);
+  transition: opacity 0.6s cubic-bezier(0.65, 0, 0.35, 1),
+              filter 0.6s cubic-bezier(0.65, 0, 0.35, 1),
+              transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.work .work-image-item.active .work-image-frame {
+  opacity: 1;
+  filter: grayscale(0);
+  transform: scale(1.05);
+}
+.work .work-image-index {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  font-size: 12px;
+  color: var(--ink-muted);
+}
+
+/* right-hand category / year */
+.work .work-fixed-meta {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  right: calc(max(0px, (100vw - 1512px) / 2) + 20px);
+  width: calc((min(100vw, 1512px) - 40px) * 1 / 7);
+  text-align: right;
+  z-index: 6;
+}
+.work .work-fixed-meta .category { display: block; font-size: 16px; color: var(--ink); transition: opacity 0.3s ease; }
+.work .work-fixed-meta .year { display: block; margin-top: 4px; font-size: 14px; color: var(--ink-muted); }
+
+@media (max-width: 900px) {
+  .work header.grid-row { position: static; }
+  .work .work-body { margin-top: 48px; display: block; }
+  .work .work-list-viewport {
+    position: static;
+    transform: none;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    -webkit-mask-image: none;
+    mask-image: none;
+    margin-bottom: 24px;
+  }
+  .work .work-fixed-list { transform: none !important; transition: none; }
+  .work .loop-copy { display: none; } /* phones: one plain list, no loop */
+  .work .work-images-col { padding: 40vh 0; }
+  .work .work-image-frame { max-width: 320px; margin: 0 auto; }
+  .work .work-fixed-meta {
+    position: static;
+    top: auto;
+    right: auto;
+    width: auto;
+    transform: none;
+    text-align: left;
+    margin-top: 12px;
+  }
+}
+
+/* =========================================================
+   View switch (list / grid) — fixed bottom-left, styled like the nav
+   ========================================================= */
+.work .work-view-toggle {
+  position: fixed;
+  left: calc(max(0px, (100vw - 1512px) / 2) + 20px);
+  bottom: 24px;
+  z-index: 8;
+  display: flex;
+  gap: 16px;
+}
+.work .work-view-toggle button {
+  position: relative;
+  display: inline-block;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--ink-muted);
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+.work .work-view-toggle button:hover { color: var(--ink); }
+.work .work-view-toggle button.current { color: var(--accent); } /* chosen view turns red */
+.work .work-view-toggle button::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transition: transform 0.35s ease;
+}
+.work .work-view-toggle button:hover::after { transform: scaleX(1); }
+
+/* =========================================================
+   Grid view (Figma: "work grid")
+   3 cards across grid columns 3–5, caption under each card,
+   red "+" where the inner grid lines cross the gaps between rows.
+   ========================================================= */
+.work--grid.page { padding-bottom: 120px; }
+.work .work-grid { margin-top: 160px; }
+.work .work-grid-cards {
+  grid-column: 3 / 6;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+.work .grid-card {
+  display: flex; /* column: image, caption, then the gap pinned to the bottom */
+  flex-direction: column;
+  position: relative;
+  padding: 0 16px 0 14px; /* card sits 14px in from the left grid line */
+  color: inherit;
+}
+.work .grid-card-image {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background-color: var(--preview-bg);
+  background-size: cover;
+  background-position: center;
+  transition: opacity 0.3s ease;
+}
+.work a.grid-card:hover .grid-card-image { opacity: 0.85; }
+
+/* Space from the bottom of the image to the top of the next row's image.
+   It stretches to the tallest caption in the row, so the "+" (centred in it)
+   is always exactly halfway between the two image rows. */
+.work .grid-card-below {
+  position: relative;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+.work .grid-card-caption {
+  position: relative;
+  padding-top: 8px; /* space between image and name */
+}
+.work .grid-card-name {
+  display: block;
+  max-width: calc(100% - 56px); /* leaves room for the year */
+  font-size: 16px;
+  line-height: 1.35;
+  color: var(--ink);
+}
+.work .grid-card-year {
+  position: absolute;
+  top: 10px;
+  right: 0;
+  font-size: 14px;
+  line-height: 1.35;
+  color: var(--ink-muted);
+}
+.work .grid-card-category {
+  display: block;
+  margin-top: 4px; /* space between name and category */
+  font-size: 14px;
+  line-height: 1.35;
+  color: var(--ink-muted);
+}
+/* gap between the captions and the next row */
+.work .grid-card-gap {
+  flex: 0 0 auto;
+  margin-top: auto;
+  height: 56px;
+}
+/* on the grid line to the card's right, halfway between the image rows */
+.work .grid-plus {
+  position: absolute;
+  right: -16px;
+  top: 50%;
+  transform: translate(50%, -50%);
+  pointer-events: none;
+}
+
+@media (max-width: 900px) {
+  .work .work-grid { margin-top: 48px; }
+  .work .work-grid-cards { grid-column: 1 / 8; grid-template-columns: repeat(2, 1fr); }
+  .work .grid-card { padding: 0 8px; }
+  .work .grid-card-gap { height: 32px; }
+  .work .grid-plus { display: none; }
+  .work .work-view-toggle { bottom: 16px; }
+}

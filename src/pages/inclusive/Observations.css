@@ -1,0 +1,37 @@
+.ob { grid-column: 3 / 7; display: grid; grid-template-columns: 1fr 1.6fr; gap: 32px; align-items: start; }
+
+.ob-list { list-style: none; margin: 0; padding: 0; position: sticky; top: 120px; }
+.ob-item {
+  width: 100%; display: grid; grid-template-columns: 28px 1fr auto; gap: 10px; align-items: baseline;
+  padding: 14px 0; border-top: 1px solid var(--line); color: var(--ink-muted); transition: color .2s;
+}
+.ob-list li:last-child .ob-item { border-bottom: 1px solid var(--line); }
+.ob-n { font-size: 12px; font-family: 'Courier New', monospace; }
+.ob-t { font-size: 17px; line-height: 1.35; }
+.ob-c { font-size: 12px; }
+.ob-item:hover { color: var(--ink); }
+.ob-item.on { color: var(--ink); }
+.ob-item.on .ob-n { color: var(--accent); }
+.ob-item.on .ob-t {
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='8' viewBox='0 0 40 8' preserveAspectRatio='none'%3E%3Cpath d='M0 5 Q10 2 20 4.5 T40 4' fill='none' stroke='%23CB5858' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat 0 100% / 100% 8px;
+  padding-bottom: 4px; -webkit-box-decoration-break: clone; box-decoration-break: clone;
+}
+
+.ob-photos { display: grid; gap: 12px; }
+.ob-photos.n1 { grid-template-columns: minmax(0, 1fr); max-width: 72%; }
+.ob-photos.n2, .ob-photos.n4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.ob-photos.n3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.ob-photos.n3 img:last-child { grid-column: 1 / -1; }
+.ob-photos img {
+  display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 4px;
+  animation: ob-in .45s ease both;
+}
+@keyframes ob-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+@media (max-width: 900px) {
+  .ob { grid-column: 2 / 8; grid-template-columns: 1fr; gap: 20px; }
+  .ob-list { position: static; }
+  .ob-photos.n1 { max-width: none; }
+}
+/* a single photo is shown whole (circles can run past its edge) */
+.ob-photos.n1 img { height: auto; object-fit: contain; border-radius: 0; }

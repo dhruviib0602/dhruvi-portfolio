@@ -1,0 +1,20 @@
+/* hide the normal pointer everywhere once the custom one is running */
+.has-cursor, .has-cursor * { cursor: none !important; }
+
+.cursor {
+  position: fixed; left: 0; top: 0; z-index: 10000; pointer-events: none;
+  opacity: 0; transition: opacity .2s;
+}
+.cursor.on { opacity: 1; }
+.cursor span {
+  position: absolute; left: 0; top: 0;
+  width: 6px; height: 6px; margin: -3px 0 0 -3px; border-radius: 50%;
+  background: var(--accent, #CB5858);
+  transition: width .25s cubic-bezier(.3,1.4,.5,1), height .25s cubic-bezier(.3,1.4,.5,1), margin .25s cubic-bezier(.3,1.4,.5,1), background .2s;
+}
+/* over something clickable: bigger, and inverts what's underneath */
+.cursor.hover { mix-blend-mode: difference; }
+.cursor.hover span { width: 14px; height: 14px; margin: -7px 0 0 -7px; background: #fff; }
+.cursor.down span { transform: scale(.8); }
+
+@media (prefers-reduced-motion: reduce) { .cursor span { transition: none; } }

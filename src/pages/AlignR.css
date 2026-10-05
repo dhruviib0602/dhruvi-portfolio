@@ -1,0 +1,83 @@
+/* AlignR — builds on the case-study styles in InclusiveNavigation.css */
+
+.alignr .ar-closing { margin-top: 32px; }
+
+/* who it's for */
+.alignr .ar-aud { grid-column: 3 / 7; display: flex; flex-direction: column; gap: 14px; }
+.alignr .ar-aud-row { display: grid; grid-template-columns: 80px 1fr; align-items: center; gap: 12px; }
+.alignr .ar-aud-k { font-size: 14px; color: var(--ink-muted); font-style: italic; }
+.alignr .ar-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.alignr .ar-chip {
+  padding: 5px 14px; border: 1px solid var(--line); border-radius: 30px; background: var(--paper);
+  font-size: 15px; transition: border-color .2s, transform .2s;
+}
+.alignr .ar-chip:hover { border-color: var(--accent); transform: translateY(-2px); }
+.alignr .ar-aud-row:first-child .ar-chip { border-color: var(--ink); }
+.alignr .ar-note { margin: 4px 0 0; font-size: 14px; color: var(--ink-muted); }
+
+/* insight */
+.alignr .ar-insight { grid-column: 3 / 7; }
+.alignr .ar-insight-big { margin: 0; font-size: 36px; line-height: 1.3; font-style: italic; color: var(--ink); }
+.alignr .ar-insight-more { margin-top: 18px; }
+
+/* explorations */
+.alignr .ar-ex { grid-column: 3 / 7; }
+.alignr .ar-ex-intro { margin: 0 0 24px; font-size: 18px; }
+.alignr .ar-ex-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.alignr .ar-ex-card {
+  background: var(--paper); border: 1px solid var(--line); border-radius: 4px; overflow: hidden;
+  display: flex; flex-direction: column; transition: border-color .25s, transform .25s;
+}
+.alignr .ar-ex-card:hover { transform: translateY(-4px); }
+.alignr .ar-ex-card.final { border-color: var(--accent); }
+.alignr .ar-ex-media { aspect-ratio: 4 / 3; border: 0; border-bottom: 1px solid var(--line); }
+.alignr .ar-ex-media.media-empty { padding: 10px; }
+.alignr .ar-ex-body { padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.alignr .ar-tag { font-size: 13px; font-style: italic; color: var(--ink-muted); }
+.alignr .ar-tag.on { color: var(--accent); }
+.alignr .ar-ex-title { margin: 0; font-size: 20px; color: var(--ink); }
+.alignr .ar-ex-text { margin: 0; font-size: 15px; color: var(--ink-muted); }
+.alignr .ar-why {
+  margin-top: auto; align-self: flex-start; font-size: 13px; color: var(--accent);
+  border: 1px solid var(--accent); padding: 2px 9px; border-radius: 30px;
+}
+.alignr .ar-ex-card:not(.final) .ar-ex-title { text-decoration: line-through; text-decoration-color: var(--accent); text-decoration-thickness: 1.5px; }
+
+/* outcome image */
+.alignr .ar-media { grid-column: 3 / 7; margin-top: 32px; aspect-ratio: 16 / 9; }
+.alignr .ar-media.media-empty { padding: 10px; }
+
+@media (max-width: 900px) {
+  .alignr .ar-aud, .alignr .ar-insight, .alignr .ar-ex, .alignr .ar-media { grid-column: 2 / 8; }
+  .alignr .ar-ex-cards { grid-template-columns: 1fr; }
+  .alignr .ar-insight-big { font-size: 28px; }
+}
+
+/* flat pictograms for the three versions */
+.alignr .ar-illo { display: block; width: 100%; aspect-ratio: 4 / 3; background: var(--paper, #FBFAF4); border-bottom: 1px solid var(--line); }
+.alignr .ill-fig { fill: #DAD4C2; }
+.alignr .ill-dev { fill: #3d3a35; }
+.alignr .ill-band { fill: none; stroke: #8d887c; stroke-width: 9; stroke-linecap: round; }
+.alignr .ill-ghost { fill: none; stroke: var(--accent); stroke-width: 2; stroke-dasharray: 3 3; }
+.alignr .ill-pad { fill: #c4bca4; }
+.alignr .ill-spine { stroke: #c9c2ac; stroke-width: 2; stroke-dasharray: 4 5; }
+.alignr .ill-red { fill: none; stroke: var(--accent); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.alignr .ill-lbl { font: 500 14px 'Jost', sans-serif; fill: var(--accent); }
+.alignr .ill-sub { font: 12px 'Jost', sans-serif; fill: var(--ink-muted); letter-spacing: .06em; }
+
+/* small hover cues */
+.alignr .ill-slide { transition: transform .5s cubic-bezier(.4,0,.2,1); }
+.alignr .ar-ex-card:hover .ill-slide { transform: translate(8px, -4px) rotate(-4deg); transform-origin: 232px 108px; }
+.alignr .ar-ex-card:hover .ill-pulse { animation: ill-pulse .9s ease-in-out infinite alternate; }
+@keyframes ill-pulse { to { opacity: .35; } }
+.alignr .ill-tick { stroke-dasharray: 1; stroke-dashoffset: 0; }
+.alignr .ar-ex-card:hover .ill-tick { animation: ill-draw .6s ease both; }
+@keyframes ill-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+
+/* the in-use video (YouTube) */
+.alignr .ar-video { grid-column: 2 / 7; aspect-ratio: 16 / 9; width: 100%; border: 0; border-radius: 4px; background: #111; }
+@media (max-width: 900px) { .alignr .ar-video { grid-column: 2 / 8; } }
+.alignr .ar-renders { grid-column: 3 / 7; margin-top: 32px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.alignr .ar-renders img { display: block; width: 100%; aspect-ratio: 492 / 262; object-fit: cover; border-radius: 3px; transition: transform .3s; }
+.alignr .ar-renders img:hover { transform: scale(1.03); }
+@media (max-width: 900px) { .alignr .ar-renders { grid-column: 2 / 8; grid-template-columns: repeat(2, minmax(0, 1fr)); } }

@@ -1,0 +1,141 @@
+/* Landing page — every rule is scoped under .landing
+   hero (koi) → selected works (spiral) → playground (zoom) → footer */
+
+/* full-bleed pieces must not cause sideways scrolling */
+html:has(.page.landing), body:has(.page.landing) { overflow-x: clip; }
+
+/* ---------- hero: intro text over swimming koi ---------- */
+.landing .hero2 {
+  position: relative;
+  height: 100vh;
+  min-height: 600px;
+  display: flex;
+  align-items: center;          /* text sits in the vertical middle of the screen */
+}
+.landing .hero2-koi {
+  position: absolute;
+  top: 0; height: 100vh;
+  width: 100vw;
+  left: calc(50% - 50vw);          /* the whole screen width, not just the page */
+  opacity: 0.55;                   /* lower = fainter koi */
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform;
+}
+.landing .hero2-text { position: relative; z-index: 1; width: 100%; }
+.landing .hero2-copy { grid-column: 2 / 4; max-width: 440px; }
+.landing .hero2-copy p { margin: 0; font-size: 20px; line-height: 1.5; color: #2f2c28; }
+.landing .hero2-copy .hero2-hello { margin-bottom: 18px; }
+.landing .hero2-copy .hl { color: var(--accent); }
+.landing .lean-w { display: inline-block; will-change: transform; }
+
+/* ---------- selected works: pinned while the spiral plays ---------- */
+.landing .works-spiral { position: relative; height: 340vh; }
+.landing .ws-stage {
+  position: sticky; top: 0;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 1;
+}
+.landing .ws-label {
+  position: absolute; left: 50%; top: 34%;
+  transform: translate(-50%, -50%);
+  font-size: 16px; color: var(--ink-muted);
+  white-space: nowrap;
+}
+/* the row the cards land in: columns 2–6, like the Figma */
+.landing .ws-row { position: absolute; left: 0; right: 0; top: 50%; pointer-events: none; } /* invisible guide — let hovers reach the cards */
+.landing .ws-slots {
+  grid-column: 2 / 7;
+  display: grid; grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+  padding: 0 7px;
+}
+.landing .ws-slot { aspect-ratio: 194 / 267; }
+
+.landing .ws-card {
+  position: absolute; top: 0; left: 0;
+  transform-origin: center;
+  will-change: transform, opacity;
+  opacity: 0;
+  background: var(--preview-bg);
+  z-index: 2;
+}
+.landing .ws-card img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.landing .ws-cap {
+  position: absolute; left: 0; right: 0; top: calc(100% + 10px);
+  display: flex; flex-direction: column; gap: 2px;
+  opacity: 0; transform: translateY(-4px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  pointer-events: none;
+}
+.landing .ws-name { font-size: 16px; color: var(--accent); }
+.landing .ws-cat { font-size: 14px; color: var(--ink-muted); }
+.landing .ws-meta { display: flex; justify-content: space-between; gap: 10px; }
+.landing .ws-year { font-size: 14px; color: var(--ink-muted); font-variant-numeric: tabular-nums; }
+.landing .ws-card:hover .ws-cap { opacity: 1; transform: none; }
+.landing .ws-card { transition: filter 0.25s ease; }
+.landing .ws-stage:has(.ws-card.landed:hover) .ws-card.landed:not(:hover) { filter: grayscale(0.6) opacity(0.55); } /* the others fade back */
+
+/* ---------- playground: one window (pinned while it plays) ---------- */
+.landing .playground-zoom { position: relative; height: 280vh; }
+.landing .pz-stage {
+  position: sticky; top: 0;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 1;
+}
+.landing .pz-label {
+  position: absolute; left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 16px; color: var(--ink-muted);
+}
+/* scattered images (positioned by the script, from the stage's top-left) */
+.landing .pz-fly { position: absolute; inset: 0; pointer-events: none; z-index: 3; }
+.landing .pz-fly img {
+  position: absolute; top: 0; left: 0;
+  object-fit: cover;
+  will-change: transform, width, height;
+}
+.landing .is-landed .pz-keeper { visibility: hidden; }
+
+/* the window: column 4, a little above the middle */
+.landing .pz-row { position: absolute; left: 0; right: 0; top: calc(50% - 15vh); }
+.landing .pz-slot {
+  grid-column: 4 / 5;
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 5;
+}
+.landing .pz-slot img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; object-fit: cover;
+  opacity: 0; transition: opacity 0.45s ease;
+}
+.landing .pz-slot img.on { opacity: 1; }
+.landing .pz-caption {
+  grid-column: 4 / 5; grid-row: 2;
+  display: grid; grid-template-columns: 1fr auto;
+  row-gap: 2px;
+  margin-top: 14px;
+  opacity: 0; transform: translateY(6px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.landing .is-landed .pz-caption { opacity: 1; transform: none; }
+.landing .pz-title { grid-column: 1 / 3; font-size: 18px; color: var(--ink); }
+.landing .pz-enter { font-size: 14px; color: var(--accent); }
+.landing .pz-enter:hover { text-decoration: underline; text-underline-offset: 4px; }
+.landing .pz-count { font-size: 14px; color: var(--ink-muted); font-variant-numeric: tabular-nums; }
+
+/* ---------- phones: no pinning, just the end states ---------- */
+@media (max-width: 900px) {
+  .landing .hero2-copy { grid-column: 2 / 8; }
+  .landing .hero2-copy p { font-size: 18px; }
+  .landing .works-spiral { height: auto; padding: 80px 0 40px; }
+  .landing .ws-stage { position: relative; height: auto; overflow: visible; }
+  .landing .ws-label { position: static; transform: none; text-align: center; margin-bottom: 24px; }
+  .landing .ws-row { position: static; }
+  .landing .ws-slots { grid-column: 2 / 8; grid-template-columns: repeat(2, 1fr); padding: 0; }
+  .landing .ws-card { position: absolute; }
+  .landing .pz-slot, .landing .pz-caption { grid-column: 3 / 6; }
+}

@@ -1,0 +1,259 @@
+/* Thela, Thaila, Thikana — builds on InclusiveNavigation.css (hero, labels in column 2,
+   body copy in columns 3–6). Visual language: light paper cards, red typewriter tags,
+   red-pen marks, signboard strips. */
+
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap');
+
+.thela { --paper: #FBFAF4; --mono: 'Courier Prime', ui-monospace, monospace; }
+.thela .section { margin-top: 140px; }
+.thela button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-align: inherit; }
+
+/* ---------- shared bits ---------- */
+.thela .tag {
+  display: inline-block; background: var(--accent); color: #fff;
+  font-family: var(--mono); font-size: 13px; line-height: 1.4; padding: 2px 9px; white-space: nowrap;
+}
+.thela .tag.pt { position: relative; }
+.thela .tag.pt::after { content: ''; position: absolute; left: 50%; bottom: -6px; margin-left: -6px; border: 6px solid transparent; border-bottom: 0; border-top-color: var(--accent); }
+.thela .tt-card { background: var(--paper); border: 1px solid var(--line); border-radius: 4px; padding: 22px; transition: border-color .25s ease; }
+.thela .tt-card-n { font-size: 15px; color: var(--ink); }
+.thela .tt-small { font-size: 13px; color: var(--ink-muted); }
+.thela .tt-hint { font-family: var(--mono); font-size: 11px; color: var(--ink-muted); border: 1px dashed var(--ink-muted); border-radius: 20px; padding: 1px 9px; position: absolute; right: 0; bottom: -30px; }
+.thela .tt-line { font-size: 20px; font-style: italic; margin: 24px 0 0; line-height: 1.45; }
+.thela .tt-line.small { font-size: 16px; margin-top: 12px; }
+.thela .chip { display: inline-block; border: 1px solid var(--line); background: var(--paper); padding: 4px 11px; border-radius: 30px; font-size: 13px; transition: border-color .2s, color .2s; }
+.thela .chip.on { border-color: var(--accent); color: var(--accent); }
+.thela .chip.ghost { background: transparent; border-style: dashed; border-color: var(--ink-muted); color: var(--ink-muted); }
+.thela .chip.pop { animation: tt-pop .35s ease both; }
+@keyframes tt-pop { from { opacity: 0; transform: translateY(6px); } }
+.thela .tt-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; align-items: center; }
+.thela .tt-note { margin-top: 14px; background: var(--paper); border: 1px solid var(--line); border-radius: 4px; padding: 14px 16px; animation: tt-pop .3s ease both; }
+.thela .tt-note p { margin: 8px 0 0; font-size: 15px; }
+
+/* signboard strips (echo the shop signs) */
+.thela .sign {
+  display: inline-block; font-family: var(--mono); font-size: 14px; padding: 7px 14px; background: #fff;
+  border: 1px solid var(--ink); box-shadow: 3px 3px 0 var(--accent); text-transform: lowercase;
+  animation: tt-pop .35s ease both;
+}
+
+/* red pen */
+.thela .pen { position: relative; display: inline; }
+.thela .pen-circle { white-space: nowrap; }
+.thela .pen-underline, .thela .pen-strike {
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
+  background-repeat: no-repeat; background-size: 0% 8px;
+  transition: background-size .9s cubic-bezier(.6,.05,.3,1), color .4s;
+}
+.thela .pen-underline { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='8' viewBox='0 0 40 8' preserveAspectRatio='none'%3E%3Cpath d='M0 5 Q10 2 20 4.5 T40 4' fill='none' stroke='%23CB5858' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E"); background-position: 0 100%; padding-bottom: 4px; }
+.thela .pen-strike { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='8' viewBox='0 0 40 8' preserveAspectRatio='none'%3E%3Cpath d='M0 4.5 Q10 3 20 4 T40 3.5' fill='none' stroke='%23CB5858' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E"); background-position: 0 55%; }
+.thela .pen-underline.on, .thela .pen-strike.on { background-size: 100% 8px; }
+.thela .pen svg { position: absolute; left: -6%; width: 112%; overflow: visible; pointer-events: none; }
+.thela .pen-underline svg { bottom: -0.35em; height: 0.6em; }
+.thela .pen-circle svg { top: -0.55em; height: calc(100% + 1.1em); left: -10%; width: 120%; }
+.thela .pen-strike svg { top: 0.1em; height: 1em; left: -3%; width: 106%; }
+.thela .pen path { fill: none; stroke: var(--accent); stroke-width: 1.6px; vector-effect: non-scaling-stroke; stroke-linecap: round;
+  stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset .7s cubic-bezier(.6,0,.2,1); }
+.thela .pen.on path { stroke-dashoffset: 0; }
+.thela .pen-strike.on { color: var(--ink-muted); }
+
+/* ---------- tl;dr ---------- */
+.thela .tt-tldr { grid-column: 3 / 7; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.thela .tt-tldr .tt-card { min-height: 220px; display: flex; flex-direction: column; justify-content: space-between; }
+.thela .tt-tldr p { margin: 0; font-size: 18px; line-height: 1.6; }
+.thela .tt-tldr .tt-card-n { font-size: 13px; color: var(--accent); font-style: italic; }
+
+/* ---------- the market ---------- */
+.thela .tt-market { grid-column: 3 / 7; display: grid; grid-template-columns: 1.8fr 1fr; gap: 40px; margin-top: 48px; }
+.thela .tt-plan-wrap { position: relative; }
+.thela .tt-plan { width: 100%; display: block; background: var(--paper); border: 1px solid var(--line); border-radius: 4px; }
+.thela .tt-plan .zone { cursor: pointer; }
+.thela .tt-plan .zone rect, .thela .tt-plan .zone circle.stall { fill: transparent; stroke: var(--ink); stroke-width: 1; transition: fill .2s, stroke .2s; }
+.thela .tt-plan .zone line { stroke: var(--line); }
+.thela .tt-plan .zone .dash { stroke-dasharray: 4 4; }
+.thela .tt-plan .zone .car { stroke: var(--line); }
+.thela .tt-plan text { font-size: 11px; fill: var(--ink); text-anchor: middle; font-family: var(--mono); pointer-events: none; }
+.thela .tt-plan .zone.on rect:not(.car), .thela .tt-plan .zone.on circle.stall { fill: rgba(203, 88, 88, .12); stroke: var(--accent); }
+.thela .tt-plan .zone.on text { fill: var(--accent); }
+.thela .tt-zone-card { margin-top: 14px; animation: tt-pop .3s ease both; }
+.thela .tt-zone-card p { margin: 8px 0 0; font-size: 15px; max-width: 560px; }
+.thela .tt-numbers { display: flex; flex-direction: column; gap: 20px; }
+.thela .tt-num-v { font-size: 40px; line-height: 1; font-variant-numeric: tabular-nums; }
+.thela .tt-num-l { font-size: 14px; color: var(--ink-muted); margin-top: 4px; }
+.thela .tt-num.red .tt-num-v { color: var(--accent); }
+
+/* ---------- who's there ---------- */
+.thela .tt-people { grid-column: 3 / 7; display: grid; grid-template-columns: 1fr 1.2fr; gap: 40px; margin-top: 48px; }
+.thela .tt-origins { position: relative; background: var(--paper); border: 1px solid var(--line); border-radius: 4px; padding: 10px; align-self: start; }
+.thela .tt-origins svg { width: 100%; display: block; }
+.thela .tt-origins .outline { fill: none; stroke: var(--ink); stroke-width: 1; }
+.thela .tt-origins .route { fill: none; stroke: var(--accent); stroke-width: 1.3; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1s ease; }
+.thela .tt-origins svg.on .route { stroke-dashoffset: 0; }
+.thela .tt-origins .pt { fill: var(--ink); }
+.thela .tt-origins .home { fill: var(--accent); }
+.thela .tt-origins text { font-size: 12px; fill: var(--ink); }
+.thela .tt-ahd { position: absolute; left: 12%; top: 60%; }
+.thela .tt-who .tt-small { margin-top: 18px; }
+.thela .tt-who .tt-small:first-child { margin-top: 0; }
+.thela .tt-econ { display: flex; gap: 6px; margin-top: 10px; }
+.thela .tt-econ button { font-size: 12px; padding: 9px 10px; border: 1px solid var(--line); background: var(--paper); transition: border-color .2s, color .2s; }
+.thela .tt-econ button.on { border-color: var(--accent); color: var(--accent); }
+
+/* ---------- research question ---------- */
+.thela .tt-rq { font-size: 34px; line-height: 1.4; }
+
+/* ---------- methods ---------- */
+.thela .tt-methods { grid-column: 3 / 7; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 40px; }
+.thela .tt-method { display: flex; flex-direction: column; gap: 4px; min-height: 160px; position: relative; padding-top: 70px; }
+.thela .tt-method .tag { position: absolute; left: 22px; top: 22px; opacity: 0; transform: translateY(4px); transition: opacity .2s, transform .2s; }
+.thela .tt-method:hover { border-color: var(--accent); }
+.thela .tt-method:hover .tag { opacity: 1; transform: none; }
+.thela .tt-desc { font-size: 14px; color: var(--ink-muted); }
+.thela .tt-photos { grid-column: 3 / 7; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }
+.thela .tt-photo { aspect-ratio: 4 / 3; }
+
+/* ---------- interviews ---------- */
+.thela .tt-themes { grid-column: 3 / 7; display: grid; grid-template-columns: 1.6fr 1fr; gap: 40px; margin-top: 48px; align-items: end; }
+.thela .tt-bars { display: flex; gap: 10px; height: 300px; align-items: flex-end; }
+.thela .tt-bar { flex: 1; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; gap: 8px; }
+.thela .tt-bar-fill { display: block; position: relative; background: var(--paper); border: 1px solid var(--line); transition: background .2s, border-color .2s; }
+.thela .tt-bar.on .tt-bar-fill { background: rgba(203, 88, 88, .1); border-color: var(--accent); }
+.thela .tt-bar-n { position: absolute; left: 6px; top: 6px; font-family: var(--mono); font-size: 11px; color: var(--ink-muted); }
+.thela .tt-bar.on .tt-bar-n { color: var(--accent); }
+.thela .tt-bar-name { font-size: 12px; line-height: 1.3; min-height: 32px; }
+.thela .tt-bar.on .tt-bar-name { color: var(--accent); }
+.thela .tt-signs { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; padding-bottom: 40px; }
+.thela .tt-sign-line { font-style: italic; font-size: 17px; margin: 0 0 6px; }
+
+/* ---------- personas ---------- */
+.thela .tt-personas { grid-column: 3 / 7; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; margin-top: 40px; }
+.thela .tt-persona { background: var(--paper); border: 1px solid var(--line); border-radius: 4px; overflow: hidden; transition: border-color .25s, transform .25s; }
+.thela .tt-persona:hover { border-color: var(--accent); transform: translateY(-4px); }
+.thela .tt-persona-img { background: var(--paper); aspect-ratio: 1; display: flex; align-items: center; justify-content: center; }
+.thela .tt-persona-img img { width: 100%; height: 100%; object-fit: contain; mix-blend-mode: multiply; }
+.thela .tt-persona-n { padding: 10px 12px; font-size: 15px; }
+.thela .tt-persona-n span { display: block; font-size: 12px; color: var(--ink-muted); }
+
+/* ---------- stakeholders ---------- */
+.thela .tt-stake { grid-column: 3 / 7; display: grid; grid-template-columns: 1fr 1.4fr; gap: 40px; margin-top: 8px; }
+.thela .tt-toggle { display: inline-flex; border: 1px solid var(--line); background: var(--paper); border-radius: 30px; padding: 3px; font-size: 14px; }
+.thela .tt-toggle button { padding: 5px 14px; border-radius: 30px; transition: background .2s, color .2s; }
+.thela .tt-toggle button.on { background: var(--accent); color: #fff; }
+.thela .tt-stake .tt-chips { margin-top: 18px; }
+.thela .tt-pi { position: relative; height: 380px; background: var(--paper); border: 1px solid var(--line); border-radius: 4px; }
+.thela .tt-q { position: absolute; width: 50%; height: 50%; padding: 10px 12px; font-size: 12px; font-style: italic; color: var(--ink-muted); transition: background .25s, color .25s; }
+.thela .tt-q.q0 { left: 0; top: 0; border-right: 1px dashed var(--line); border-bottom: 1px dashed var(--line); }
+.thela .tt-q.q1 { left: 50%; top: 0; border-bottom: 1px dashed var(--line); }
+.thela .tt-q.q2 { left: 0; top: 50%; border-right: 1px dashed var(--line); }
+.thela .tt-q.q3 { left: 50%; top: 50%; }
+.thela .tt-q.on { background: rgba(203, 88, 88, .06); color: var(--accent); }
+.thela .tt-dot { position: absolute; transform: translate(-10%, -50%); white-space: nowrap; font-size: 12px; padding: 3px 9px; }
+.thela .tt-dot.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+.thela .tt-axis { position: absolute; font-size: 12px; color: var(--ink-muted); }
+.thela .tt-axis.y { left: -26px; top: 50%; transform: rotate(-90deg) translateX(50%); transform-origin: left top; }
+.thela .tt-axis.x { bottom: -22px; left: 50%; transform: translateX(-50%); }
+.thela .tt-grid-wrap .tt-note { margin-top: 30px; }
+
+/* ---------- a day in the life ---------- */
+.thela .tt-day { grid-column: 3 / 7; margin-top: 48px; padding: 56px 30px 30px; position: relative; }
+.thela .tt-track { position: relative; height: 46px; }
+.thela .tt-track .seg { position: absolute; top: 16px; height: 14px; border-right: 1px solid var(--paper); transition: filter .2s; }
+.thela .tt-track .seg.home { background: #E4E0CD; }
+.thela .tt-track .seg.source { background: #CFD9E8; }
+.thela .tt-track .seg.stall { background: var(--accent); opacity: .85; }
+.thela .tt-track .seg.on { filter: brightness(.9); }
+.thela .tt-hand { position: absolute; top: 4px; width: 2px; height: 38px; background: var(--ink); pointer-events: none; transition: left .05s linear; }
+.thela .tt-hand .tag { position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); }
+.thela .tt-track input[type=range] { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: ew-resize; margin: 0; }
+.thela .tt-ticks { position: absolute; left: 0; right: 0; top: 36px; font-size: 12px; color: var(--ink-muted); }
+.thela .tt-ticks span { position: absolute; }
+.thela .tt-day-body { display: grid; grid-template-columns: 1fr 1.3fr; gap: 40px; margin-top: 40px; align-items: start; }
+.thela .tt-step { border-left: 2px solid var(--accent); padding-left: 16px; animation: tt-pop .3s ease both; }
+.thela .tt-step p { margin: 6px 0 0; font-size: 18px; }
+.thela .tt-legend { display: flex; gap: 16px; font-size: 13px; }
+.thela .tt-legend span::before { content: ''; display: inline-block; width: 14px; height: 6px; margin-right: 6px; vertical-align: middle; }
+.thela .tt-legend .home::before { background: #E4E0CD; }
+.thela .tt-legend .source::before { background: #CFD9E8; }
+.thela .tt-legend .stall::before { background: var(--accent); }
+.thela .tt-day .tt-hint { bottom: auto; top: 14px; right: 14px; }
+
+/* ---------- shadowing ---------- */
+.thela .tt-shadow { grid-column: 3 / 7; display: grid; grid-template-columns: 1fr 1.3fr; gap: 40px; margin-top: 48px; align-items: start; }
+.thela .tt-shadow-photo { aspect-ratio: 4 / 5; position: sticky; top: 120px; }
+.thela .tt-shadow.no-photo { grid-template-columns: 1fr; }
+.thela .tt-obs { list-style: none; margin: 0; padding: 0; }
+.thela .tt-obs li { display: grid; grid-template-columns: 34px 1fr; padding: 14px 0; border-bottom: 1px solid var(--line); cursor: default; color: var(--ink-muted); transition: color .2s; }
+.thela .tt-obs-n { font-family: var(--mono); font-size: 12px; padding-top: 4px; }
+.thela .tt-obs-t { font-size: 18px; }
+.thela .tt-obs-d { font-size: 15px; max-height: 0; overflow: hidden; opacity: 0; transition: max-height .35s ease, opacity .3s ease, margin .3s; }
+.thela .tt-obs li.on { color: var(--ink); }
+.thela .tt-obs li.on .tt-obs-n { color: var(--accent); }
+.thela .tt-obs li.on .tt-obs-d { max-height: 120px; opacity: 1; margin-top: 6px; }
+
+/* ---------- card sorting ---------- */
+.thela .tt-sort { grid-column: 3 / 7; display: grid; grid-template-columns: 1.4fr 1fr; gap: 40px; margin-top: 40px; }
+.thela .tt-sort table { width: 100%; border-collapse: collapse; font-size: 13px; transition: opacity .3s; }
+.thela .tt-sort table.dim { opacity: .35; }
+.thela .tt-sort th, .thela .tt-sort td { border-bottom: 1px solid var(--line); padding: 10px 6px; text-align: left; font-weight: 400; }
+.thela .tt-sort th { color: var(--ink-muted); font-size: 12px; }
+.thela .tt-sort td span { display: block; font-size: 11px; color: var(--ink-muted); }
+.thela .tt-sort td.h { background: rgba(203, 88, 88, .13); color: var(--accent); }
+.thela .tt-sort .tt-chips { margin-top: 16px; }
+.thela .tt-link { font-size: 13px; color: var(--accent); margin-left: 8px; }
+.thela .tt-avg { font-size: 14px; margin-top: 14px; cursor: default; }
+.thela .tt-avg i { display: block; height: 10px; background: var(--line); margin-top: 5px; }
+.thela .tt-avg em { display: block; height: 100%; background: var(--ink); transition: width .9s cubic-bezier(.3,0,.2,1); }
+.thela .tt-avg.top em, .thela .tt-avg.on em { background: var(--accent); }
+.thela .tt-avg.on span { color: var(--accent); }
+.thela .tt-big { margin-top: 30px; font-size: 16px; }
+.thela .tt-big span { display: block; font-size: 44px; line-height: 1; color: var(--accent); }
+.thela .tt-cust { margin-top: 30px; }
+.thela .tt-cust-bars { display: flex; gap: 10px; height: 110px; align-items: flex-end; margin-top: 10px; }
+.thela .tt-cust-bars div { width: 90px; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; font-size: 12px; }
+.thela .tt-cust-bars i { display: block; background: var(--paper); border: 1px solid var(--line); min-height: 2px; transition: height .9s ease; margin-bottom: 6px; }
+.thela .tt-cust-bars .on i { background: rgba(203, 88, 88, .15); border-color: var(--accent); }
+.thela .tt-cust-bars .on span { color: var(--accent); }
+
+/* ---------- insights ---------- */
+.thela .tt-insights { grid-column: 3 / 7; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 40px; }
+.thela .tt-ins { min-height: 300px; display: flex; flex-direction: column; cursor: default; }
+.thela .tt-ins.on { border-color: var(--accent); }
+.thela .tt-ins-surface { font-size: 19px; line-height: 1.5; }
+
+.thela .tt-ins-under { flex: 1; margin-top: 18px; opacity: 0; transform: translateY(8px); transition: opacity .35s ease .15s, transform .35s ease .15s; }
+.thela .tt-ins.on .tt-ins-under { opacity: 1; transform: none; }
+.thela .tt-ins-under p { margin: 8px 0 0; font-size: 15px; }
+.thela .tt-ins .tt-card-n { margin-top: 16px; font-size: 16px; }
+
+/* ---------- outcome ---------- */
+.thela .tt-senses { grid-column: 3 / 7; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 40px; }
+.thela .tt-senses p { margin: 10px 0 0; font-size: 15px; }
+.thela .tt-zine { grid-column: 3 / 7; margin-top: 80px; margin-bottom: 40px; }
+@media (max-width: 900px) { .thela .tt-zine { grid-column: 2 / 8; } }
+.thela .tt-zine:has(.is-full) { position: relative; z-index: 400; }
+
+/* ---------- floating section index ---------- */
+.thela .tt-progress {
+  position: fixed; left: 50%; bottom: 20px; transform: translate(-50%, 20px); z-index: 20;
+  display: flex; gap: 4px; padding: 5px; background: var(--paper); border: 1px solid var(--line); border-radius: 30px;
+  opacity: 0; pointer-events: none; transition: opacity .3s, transform .3s; font-size: 13px;
+}
+.thela .tt-progress.on { opacity: 1; pointer-events: auto; transform: translate(-50%, 0); }
+.thela .tt-progress button { padding: 4px 12px; border-radius: 30px; color: var(--ink-muted); }
+.thela .tt-progress button.cur { background: var(--accent); color: #fff; }
+
+/* ---------- phones ---------- */
+@media (max-width: 900px) {
+  .thela .tt-tldr, .thela .tt-market, .thela .tt-people, .thela .tt-methods, .thela .tt-photos,
+  .thela .tt-themes, .thela .tt-personas, .thela .tt-stake, .thela .tt-day, .thela .tt-shadow,
+  .thela .tt-tldr, .thela .tt-market, .thela .tt-people, .thela .tt-themes, .thela .tt-stake,
+  .thela .tt-shadow, .thela .tt-sort, .thela .tt-insights, .thela .tt-senses, .thela .tt-day-body { grid-template-columns: 1fr; }
+  .thela .tt-methods, .thela .tt-personas { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .thela .tt-photos { grid-template-columns: 1fr 1fr; }
+  .thela .tt-shadow-photo { position: static; }
+  .thela .tt-bars { height: 220px; gap: 4px; }
+  .thela .tt-bar-name { font-size: 10px; }
+  .thela .tt-rq { font-size: 24px; }
+  .thela .tt-progress { display: none; }
+  .thela .tt-ins-under { opacity: 1; transform: none; }
+}

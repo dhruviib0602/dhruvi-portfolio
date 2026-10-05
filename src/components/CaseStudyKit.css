@@ -1,0 +1,102 @@
+/* Shared case-study pieces (see CaseStudyKit.jsx). Same red-pen language as Thela. */
+
+.inclusive { --paper: #FBFAF4; }
+.cs-btn, .cs-pill button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-align: inherit; }
+
+/* ---------- red pen underline (follows text across line breaks) ---------- */
+.ink {
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='8' viewBox='0 0 40 8' preserveAspectRatio='none'%3E%3Cpath d='M0 5 Q10 2 20 4.5 T40 4' fill='none' stroke='%23CB5858' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: 0 100%; background-size: 0% 8px;
+  padding-bottom: 4px;
+  transition: background-size .9s cubic-bezier(.6,.05,.3,1);
+}
+.ink.on { background-size: 100% 8px; }
+
+/* ---------- floating section index ---------- */
+.cs-pill {
+  position: fixed; left: 50%; bottom: 20px; transform: translate(-50%, 20px); z-index: 20;
+  display: flex; gap: 4px; padding: 5px; background: var(--paper); border: 1px solid var(--line); border-radius: 30px;
+  opacity: 0; pointer-events: none; transition: opacity .3s, transform .3s; font-size: 13px;
+}
+.cs-pill.on { opacity: 1; pointer-events: auto; transform: translate(-50%, 0); }
+.cs-pill button { padding: 4px 12px; border-radius: 30px; color: var(--ink-muted); transition: color .2s, background .2s; }
+.cs-pill button:hover { color: var(--ink); }
+.cs-pill button.cur { background: var(--accent); color: #fff; }
+
+/* ---------- numbers that count up ---------- */
+.cs-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.cs-stat { border-top: 1px solid var(--line); padding-top: 14px; display: flex; flex-direction: column; gap: 4px; }
+.cs-stat-n { font-size: 56px; line-height: 1; color: var(--ink); font-variant-numeric: tabular-nums; }
+.cs-stat-l { font-size: 14px; color: var(--ink-muted); }
+
+/* ---------- media hover (cards and placeholders lift slightly) ---------- */
+.inclusive .field-photo, .inclusive .asset-photo, .inclusive .outcome-media {
+  transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+}
+.inclusive .field-photo:hover, .inclusive .outcome-media:hover { transform: translateY(-4px); }
+.inclusive .media-empty:hover { border-color: var(--accent); }
+
+/* ---------- before / after ---------- */
+.cs-compare-box {
+  position: relative; aspect-ratio: 4 / 3; overflow: hidden; cursor: ew-resize;
+  touch-action: pan-y; user-select: none; background: var(--paper);
+}
+.cs-compare-layer { position: absolute; inset: 0; width: 100%; height: 100%; }
+.cs-compare-layer.media-empty { padding: 10px; }
+.cs-compare-top { position: absolute; inset: 0; transition: clip-path .45s cubic-bezier(.4,0,.2,1); }
+.cs-compare-top .media-empty { background: #E9E6D8; }
+.cs-compare-box.dragging .cs-compare-top, .cs-compare-box.dragging .cs-compare-handle { transition: none; }
+.cs-compare-handle {
+  position: absolute; top: 0; bottom: 0; width: 0; border-left: 1px solid var(--accent);
+  transition: left .45s cubic-bezier(.4,0,.2,1); outline: none;
+}
+.cs-compare-knob {
+  position: absolute; top: 50%; left: 0; transform: translate(-50%, -50%);
+  width: 34px; height: 34px; border-radius: 50%; background: var(--accent); color: #fff;
+  display: flex; align-items: center; justify-content: center; font-size: 15px;
+  transition: transform .2s;
+}
+.cs-compare-box:hover .cs-compare-knob, .cs-compare-handle:focus-visible .cs-compare-knob { transform: translate(-50%, -50%) scale(1.12); }
+.cs-compare-tag {
+  position: absolute; top: 10px; z-index: 2; pointer-events: none;
+  font-size: 12px; padding: 2px 8px; background: var(--paper); border: 1px solid var(--line); color: var(--ink-muted);
+}
+.cs-compare-tag.l { left: 10px; }
+.cs-compare-tag.r { right: 10px; }
+
+@media (max-width: 900px) {
+  .cs-pill { display: none; }
+  .cs-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cs-stat-n { font-size: 40px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ink { transition: none; }
+}
+
+/* placeholder labels sit on their own side so they don't overlap mid-wipe */
+.inclusive .cs-compare-box .media-empty { display: flex; align-items: center; }
+.inclusive .cs-compare-top .media-empty { justify-content: flex-start; padding-left: 14%; }
+.inclusive .cs-compare-box > .media-empty { justify-content: flex-end; padding-right: 14%; }
+
+/* ---------- tl;dr cards (same as Thela) ---------- */
+.cs-tldr { grid-column: 3 / 7; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.cs-card {
+  background: var(--paper); border: 1px solid var(--line); border-radius: 4px; padding: 22px;
+  min-height: 220px; display: flex; flex-direction: column; justify-content: space-between; gap: 20px;
+  transition: border-color .25s ease;
+}
+.cs-card:hover { border-color: var(--accent); }
+.cs-card p { margin: 0; font-size: 18px; line-height: 1.6; }
+.cs-card-n { font-size: 13px; color: var(--accent); font-style: italic; }
+.cs-circle { position: relative; white-space: nowrap; }
+.cs-circle svg { position: absolute; top: -0.55em; left: -10%; width: 120%; height: calc(100% + 1.1em); overflow: visible; pointer-events: none; }
+.cs-circle path {
+  fill: none; stroke: var(--accent); stroke-width: 1.6px; vector-effect: non-scaling-stroke; stroke-linecap: round;
+  stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset .8s cubic-bezier(.6,0,.2,1) .55s;
+}
+.cs-circle.on path { stroke-dashoffset: 0; }
+@media (max-width: 900px) {
+  .cs-tldr { grid-column: 2 / 8; grid-template-columns: 1fr; }
+  .cs-card { min-height: 0; gap: 16px; }
+}
